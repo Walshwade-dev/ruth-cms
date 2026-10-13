@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { requireAuth } from "@/lib/auth";
 import { prisma } from "@/lib/db";
 
@@ -51,9 +52,12 @@ export default async function AdminDashboardPage() {
             Name, headline, culinary statement, and contact details.
           </p>
           <div className="mt-4 border-t border-stone-100 pt-3">
-            <span className="text-xs font-medium text-amber-800">
-              Milestone 8.3 target
-            </span>
+            <Link
+              href="/admin/profile"
+              className="inline-flex items-center text-xs font-semibold text-amber-800 transition hover:text-amber-950 hover:underline"
+            >
+              Edit Profile & Contact →
+            </Link>
           </div>
         </div>
 

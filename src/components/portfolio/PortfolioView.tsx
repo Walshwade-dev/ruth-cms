@@ -6,9 +6,13 @@ import { PortfolioGrid } from "@/components/portfolio/PortfolioGrid";
 import { ContactBand, SectionEyebrow } from "@/components/ui/ContactBand";
 import { FadeIn } from "@/components/ui/Motion";
 import { getPublishedWorks, getCategories } from "@/data/works";
-import { profileData } from "@/data/profile";
+import type { ProfileData } from "@/lib/data/profile";
 
-export default function PortfolioPage() {
+interface PortfolioViewProps {
+  profile: ProfileData;
+}
+
+export function PortfolioView({ profile }: PortfolioViewProps) {
   const [activeCategory, setActiveCategory] = useState<string>("All");
 
   const categories = ["All", ...getCategories()];
@@ -31,11 +35,13 @@ export default function PortfolioPage() {
               {/* Institution / Syllabus Badge */}
               <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-golden/10 border border-golden/25 text-xs font-semibold tracking-wide text-foreground/85 mb-6">
                 <span className="w-1.5 h-1.5 rounded-full bg-golden" />
-                <span>{profileData.institution} &middot; {profileData.level} Certification</span>
+                <span>
+                  {profile.institution} &middot; {profile.level} Certification
+                </span>
               </div>
 
               <SectionEyebrow className="justify-center">Curated Coursework Archive</SectionEyebrow>
-              
+
               <h1 className="font-serif text-5xl sm:text-6xl lg:text-7xl font-bold text-foreground mb-6 tracking-tight leading-[1.05]">
                 Practical <span className="text-golden italic">Work</span>
               </h1>
@@ -48,9 +54,9 @@ export default function PortfolioPage() {
             {/* Segmented Filter Control */}
             <FadeIn delay={0.15}>
               <div className="inline-flex items-center p-1.5 rounded-full bg-foreground/[0.04] border border-foreground/[0.08] backdrop-blur-sm shadow-xs flex-wrap justify-center gap-1.5">
-                <div 
+                <div
                   className="flex flex-wrap justify-center gap-1.5"
-                  role="group" 
+                  role="group"
                   aria-label="Filter practical works by category"
                 >
                   {categories.map((cat) => {

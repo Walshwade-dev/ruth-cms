@@ -3,9 +3,10 @@ import { PageContainer } from "@/components/layout/PageContainer";
 import { ContactBand, SectionEyebrow } from "@/components/ui/ContactBand";
 import { FadeIn, ScrollLine } from "@/components/ui/Motion";
 import { learningAreas, coreSkills, journeyStages } from "@/data/learning";
-import { profileData } from "@/data/profile";
+import { getProfile } from "@/lib/data/profile";
 
-export default function LearningJourneyPage() {
+export default async function LearningJourneyPage() {
+  const profileData = await getProfile();
   return (
     <main className="flex-grow bg-background">
       {/* Editorial Header */}

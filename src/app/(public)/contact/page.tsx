@@ -1,7 +1,8 @@
 import { PageContainer } from "@/components/layout/PageContainer";
-import { profileData } from "@/data/profile";
+import { getProfile } from "@/lib/data/profile";
 
-export default function ContactPage() {
+export default async function ContactPage() {
+  const profileData = await getProfile();
   const { email, phone, socials } = profileData.contact;
   const validSocials = socials.filter((s) => s.url !== null);
   const hasAnyContact = email !== null || phone !== null || validSocials.length > 0;

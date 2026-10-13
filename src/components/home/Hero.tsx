@@ -3,16 +3,18 @@ import { PageContainer } from "@/components/layout/PageContainer";
 import { CtaLink } from "@/components/ui/CtaLink";
 import { FadeIn, ScrollDrift } from "@/components/ui/Motion";
 import { PhotoFrame } from "@/components/ui/PhotoFrame";
-import { profileData } from "@/data/profile";
+import { getProfile } from "@/lib/data/profile";
 import { getPublishedWorks, getPublishedWork } from "@/data/works";
 import { learningAreas, coreSkills } from "@/data/learning";
 
-export function Hero() {
+export async function Hero() {
+  const profile = await getProfile();
+
   // Published works only. Poultry Preparation is the strongest single
   // action photograph; the starter spread provides a contrasting food detail.
   const dominant = getPublishedWork("poultry-preparation");
   const detail = getPublishedWork("minestrone-and-avocado");
-  const [firstName, ...rest] = profileData.name.split(" ");
+  const [firstName, ...rest] = profile.name.split(" ");
 
   const stats = [
     { value: getPublishedWorks().length, label: "Practical works" },
@@ -29,7 +31,7 @@ export function Hero() {
             <FadeIn delay={0.05}>
               <p className="mb-8 inline-flex items-center gap-2 rounded-full border border-golden/30 bg-background/80 px-4 py-1.5 text-xs font-semibold tracking-wide text-foreground/80">
                 <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-golden" />
-                {profileData.institution} &middot; {profileData.level}
+                {profile.institution} &middot; {profile.level}
               </p>
             </FadeIn>
 
@@ -37,12 +39,12 @@ export function Hero() {
               <h1 className="font-serif text-5xl font-bold leading-[0.95] tracking-tight text-foreground sm:text-6xl xl:text-7xl">
                 {firstName} <span className="italic text-golden">{rest.join(" ")}</span>
               </h1>
-              <p className="mt-5 font-serif text-xl text-foreground/80 md:text-2xl">{profileData.title}</p>
+              <p className="mt-5 font-serif text-xl text-foreground/80 md:text-2xl">{profile.title}</p>
             </FadeIn>
 
             <FadeIn delay={0.22}>
               <p className="mt-6 max-w-xl text-base leading-relaxed text-foreground/70 md:text-lg">
-                {profileData.statement}
+                {profile.statement}
               </p>
             </FadeIn>
 

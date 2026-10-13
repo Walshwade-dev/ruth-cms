@@ -4,9 +4,10 @@ import { PhotoFrame } from "@/components/ui/PhotoFrame";
 import { ContactBand, SectionEyebrow } from "@/components/ui/ContactBand";
 import { CtaLink } from "@/components/ui/CtaLink";
 import { FadeIn, StaggerContainer, StaggerItem } from "@/components/ui/Motion";
-import { profileData } from "@/data/profile";
+import { getProfile } from "@/lib/data/profile";
 
-export default function AboutPage() {
+export default async function AboutPage() {
+  const profileData = await getProfile();
   return (
     <main className="flex-grow bg-background">
       {/* Intro Header */}

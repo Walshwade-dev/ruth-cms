@@ -1,9 +1,10 @@
 import Link from "next/link";
-import { profileData } from "@/data/profile";
+import { getProfile } from "@/lib/data/profile";
 
-export function Footer() {
+export async function Footer() {
   const currentYear = new Date().getFullYear();
-  const validSocials = profileData.contact.socials.filter(social => social.url !== null);
+  const profile = await getProfile();
+  const validSocials = profile.contact.socials.filter(social => social.url !== null);
 
   return (
     <footer className="bg-background border-t border-golden/10 mt-auto">

@@ -1,13 +1,15 @@
 import { PageContainer } from "@/components/layout/PageContainer";
 import { SectionEyebrow } from "@/components/ui/ContactBand";
 import { FadeIn, StaggerContainer, StaggerItem } from "@/components/ui/Motion";
-import { profileData } from "@/data/profile";
+import { getProfile } from "@/lib/data/profile";
 
 /**
  * Career-direction band. Uses only the confirmed career directions from the
  * profile; the hero already carries the statement of intent.
  */
-export function StatementOfIntent() {
+export async function StatementOfIntent() {
+  const profile = await getProfile();
+
   return (
     <section className="py-8 md:py-12">
       <PageContainer>
@@ -23,13 +25,13 @@ export function StatementOfIntent() {
                 Where the craft is <span className="italic text-golden">heading</span>
               </h2>
               <p className="mt-5 max-w-md leading-relaxed text-foreground/70">
-                Training at {profileData.institution} is the first step toward a professional future in food.
+                Training at {profile.institution} is the first step toward a professional future in food.
               </p>
             </FadeIn>
 
             <StaggerContainer className="lg:col-span-7">
               <ol className="grid gap-4 sm:grid-cols-3">
-                {profileData.careerDirection.map((item, i) => (
+                {profile.careerDirection.map((item, i) => (
                   <StaggerItem
                     key={item}
                     as="li"
