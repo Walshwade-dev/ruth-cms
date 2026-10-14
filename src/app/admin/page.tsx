@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { requireAuth } from "@/lib/auth";
 import { prisma } from "@/lib/db";
+import { ChangePasswordCard } from "@/components/admin/ChangePasswordCard";
 
 export default async function AdminDashboardPage() {
   // Defense-in-depth server check
@@ -109,6 +110,9 @@ export default async function AdminDashboardPage() {
           </div>
         </div>
       </div>
+
+      {/* Password & Credential Management */}
+      <ChangePasswordCard />
 
       {/* Security & Architecture Summary */}
       <div className="rounded-xl border border-stone-200 bg-stone-50/60 p-6">
