@@ -44,12 +44,13 @@ export default async function AdminLayout({
               >
                 Profile & Contact
               </Link>
-              <span
-                title="Available in Milestone 8.4"
-                className="cursor-not-allowed rounded-md px-3 py-1.5 text-xs font-medium text-stone-400"
+              <span className="text-xs text-stone-300">|</span>
+              <Link
+                href="/admin/projects"
+                className="rounded-md px-3 py-1.5 text-xs font-semibold text-stone-700 transition hover:bg-stone-100 hover:text-stone-900"
               >
                 Projects
-              </span>
+              </Link>
               <span
                 title="Available in Milestone 8.5"
                 className="cursor-not-allowed rounded-md px-3 py-1.5 text-xs font-medium text-stone-400"

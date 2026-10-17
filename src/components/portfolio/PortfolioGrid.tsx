@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { FadeIn } from "@/components/ui/Motion";
 import { PhotoFrame } from "@/components/ui/PhotoFrame";
-import { PracticalWork } from "@/data/works";
+import type { PracticalWork } from "@/lib/data/projects";
 
 interface PortfolioGridProps {
   works: PracticalWork[];

@@ -4,7 +4,7 @@ import { PageContainer } from "@/components/layout/PageContainer";
 import { PhotoFrame } from "@/components/ui/PhotoFrame";
 import { FadeIn, StaggerContainer, StaggerItem } from "@/components/ui/Motion";
 import { ContactBand, SectionEyebrow } from "@/components/ui/ContactBand";
-import { getPublishedWorks, getPublishedWork } from "@/data/works";
+import { getPublishedWorks, getPublishedWork } from "@/lib/data/projects";
 
 interface ProjectDetailProps {
   params: Promise<{ slug: string }>;
@@ -12,14 +12,15 @@ interface ProjectDetailProps {
 
 export default async function ProjectDetail({ params }: ProjectDetailProps) {
   const { slug } = await params;
-  const work = getPublishedWork(slug);
+  const work = await getPublishedWork(slug);
 
   if (!work) {
     notFound();
   }
 
   // Related published works for continuous exploration
-  const otherWorks = getPublishedWorks().filter((w) => w.slug !== work.slug);
+  const allWorks = await getPublishedWorks();
+  const otherWorks = allWorks.filter((w) => w.slug !== work.slug);
 
   return (
     <main className="flex-grow bg-background">
@@ -166,7 +167,7 @@ export default async function ProjectDetail({ params }: ProjectDetailProps) {
 }
 
 export async function generateStaticParams() {
-  const publishedWorks = getPublishedWorks();
+  const publishedWorks = await getPublishedWorks();
   return publishedWorks.map((work) => ({
     slug: work.slug,
   }));

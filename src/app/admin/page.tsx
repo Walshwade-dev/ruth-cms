@@ -80,9 +80,12 @@ export default async function AdminDashboardPage() {
             Dishes, preparation procedures, metadata, and categories.
           </p>
           <div className="mt-4 border-t border-stone-100 pt-3">
-            <span className="text-xs font-medium text-emerald-800">
-              Milestone 8.4 target
-            </span>
+            <Link
+              href="/admin/projects"
+              className="inline-flex items-center text-xs font-semibold text-emerald-800 transition hover:text-emerald-950 hover:underline"
+            >
+              Manage Culinary Works →
+            </Link>
           </div>
         </div>
 

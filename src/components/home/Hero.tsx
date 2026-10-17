@@ -4,20 +4,31 @@ import { CtaLink } from "@/components/ui/CtaLink";
 import { FadeIn, ScrollDrift } from "@/components/ui/Motion";
 import { PhotoFrame } from "@/components/ui/PhotoFrame";
 import { getProfile } from "@/lib/data/profile";
-import { getPublishedWorks, getPublishedWork } from "@/data/works";
+import { getPublishedWorks, getPublishedWork } from "@/lib/data/projects";
 import { learningAreas, coreSkills } from "@/data/learning";
 
 export async function Hero() {
-  const profile = await getProfile();
+  const [profile, allWorks] = await Promise.all([
+    getProfile(),
+    getPublishedWorks(),
+  ]);
 
-  // Published works only. Poultry Preparation is the strongest single
-  // action photograph; the starter spread provides a contrasting food detail.
-  const dominant = getPublishedWork("poultry-preparation");
-  const detail = getPublishedWork("minestrone-and-avocado");
+  // Published works only with resilient fallbacks if preferred works are renamed/deleted
+  const dominant =
+    (await getPublishedWork("poultry-preparation")) ||
+    allWorks[0] ||
+    null;
+
+  const detail =
+    (await getPublishedWork("minestrone-and-avocado")) ||
+    allWorks.find((w) => w.slug !== dominant?.slug) ||
+    allWorks[1] ||
+    null;
+
   const [firstName, ...rest] = profile.name.split(" ");
 
   const stats = [
-    { value: getPublishedWorks().length, label: "Practical works" },
+    { value: allWorks.length, label: "Practical works" },
     { value: learningAreas.length, label: "Curriculum modules" },
     { value: coreSkills.length, label: "Core competencies" },
   ];

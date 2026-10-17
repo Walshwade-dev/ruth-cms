@@ -4,18 +4,45 @@ import { CtaLink } from "@/components/ui/CtaLink";
 import { SectionEyebrow } from "@/components/ui/ContactBand";
 import { FadeIn } from "@/components/ui/Motion";
 import { PhotoFrame } from "@/components/ui/PhotoFrame";
-import { getPublishedWork, PracticalWork } from "@/data/works";
+import { getPublishedWorks, getPublishedWork, PracticalWork } from "@/lib/data/projects";
 
 /**
  * Curated bento composition: one featured work (charcoal split card) balanced
  * by two supporting works (warm horizontal cards). Each card is a single
  * stretched link so keyboard users get one tab stop per work.
  */
-export function SelectedWorks() {
-  const featured = getPublishedWork("herbed-chicken");
-  const supporting = [getPublishedWork("pea-veloute"), getPublishedWork("meat-and-savory-pies")].filter(
-    (w): w is PracticalWork => Boolean(w)
-  );
+export async function SelectedWorks() {
+  const allWorks = await getPublishedWorks();
+  if (allWorks.length === 0) {
+    return null;
+  }
+
+  // Resilient selection: look for preferred works, or fall back to available published works
+  const featured =
+    (await getPublishedWork("herbed-chicken")) ||
+    allWorks[0];
+
+  const preferredSupportingSlugs = ["pea-veloute", "meat-and-savory-pies"];
+  const supportingCandidates: PracticalWork[] = [];
+
+  for (const slug of preferredSupportingSlugs) {
+    if (slug !== featured.slug) {
+      const work = await getPublishedWork(slug);
+      if (work) {
+        supportingCandidates.push(work);
+      }
+    }
+  }
+
+  // If preferred supporting works are missing or unpublished, fill with other published works
+  for (const work of allWorks) {
+    if (supportingCandidates.length >= 2) break;
+    if (work.slug !== featured.slug && !supportingCandidates.some((w) => w.slug === work.slug)) {
+      supportingCandidates.push(work);
+    }
+  }
+
+  const supporting = supportingCandidates;
 
   return (
     <section className="py-20 md:py-28">

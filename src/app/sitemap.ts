@@ -1,14 +1,14 @@
 import { MetadataRoute } from 'next';
-import { works } from '@/data/works';
+import { getPublishedWorks } from '@/lib/data/projects';
 
-export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = 'https://ruthshiru.com'; // Placeholder URL until production domain is known
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://cmsruthshiru.vercel.app';
 
-  const publishedWorks = works.filter((w) => w.status === 'Published');
+  const publishedWorks = await getPublishedWorks();
 
   const portfolioUrls = publishedWorks.map((work) => ({
     url: `${baseUrl}/portfolio/${work.slug}`,
-    lastModified: new Date(),
+    lastModified: work.updatedAt ?? new Date(),
     changeFrequency: 'monthly' as const,
     priority: 0.8,
   }));

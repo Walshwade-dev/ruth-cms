@@ -5,18 +5,20 @@ import { PageContainer } from "@/components/layout/PageContainer";
 import { PortfolioGrid } from "@/components/portfolio/PortfolioGrid";
 import { ContactBand, SectionEyebrow } from "@/components/ui/ContactBand";
 import { FadeIn } from "@/components/ui/Motion";
-import { getPublishedWorks, getCategories } from "@/data/works";
+import type { PracticalWork } from "@/lib/data/projects";
 import type { ProfileData } from "@/lib/data/profile";
 
 interface PortfolioViewProps {
   profile: ProfileData;
+  works: PracticalWork[];
+  categories: string[];
 }
 
-export function PortfolioView({ profile }: PortfolioViewProps) {
+export function PortfolioView({ profile, works, categories }: PortfolioViewProps) {
   const [activeCategory, setActiveCategory] = useState<string>("All");
 
-  const categories = ["All", ...getCategories()];
-  const publishedWorks = getPublishedWorks();
+  const categoryList = ["All", ...categories];
+  const publishedWorks = works;
 
   const filteredWorks = publishedWorks.filter((work) => {
     if (activeCategory === "All") {
@@ -59,7 +61,7 @@ export function PortfolioView({ profile }: PortfolioViewProps) {
                   role="group"
                   aria-label="Filter practical works by category"
                 >
-                  {categories.map((cat) => {
+                  {categoryList.map((cat) => {
                     const count =
                       cat === "All"
                         ? publishedWorks.length
